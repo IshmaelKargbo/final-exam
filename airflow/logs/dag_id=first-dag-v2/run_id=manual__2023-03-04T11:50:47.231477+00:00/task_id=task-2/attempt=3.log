@@ -1,0 +1,35 @@
+[2023-03-04T11:54:51.794+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: first-dag-v2.task-2 manual__2023-03-04T11:50:47.231477+00:00 [queued]>
+[2023-03-04T11:54:51.809+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: first-dag-v2.task-2 manual__2023-03-04T11:50:47.231477+00:00 [queued]>
+[2023-03-04T11:54:51.810+0000] {taskinstance.py:1279} INFO - 
+--------------------------------------------------------------------------------
+[2023-03-04T11:54:51.811+0000] {taskinstance.py:1280} INFO - Starting attempt 3 of 6
+[2023-03-04T11:54:51.811+0000] {taskinstance.py:1281} INFO - 
+--------------------------------------------------------------------------------
+[2023-03-04T11:54:51.827+0000] {taskinstance.py:1300} INFO - Executing <Task(BashOperator): task-2> on 2023-03-04 11:50:47.231477+00:00
+[2023-03-04T11:54:51.832+0000] {standard_task_runner.py:55} INFO - Started process 3212 to run task
+[2023-03-04T11:54:51.836+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'first-dag-v2', 'task-2', 'manual__2023-03-04T11:50:47.231477+00:00', '--job-id', '6', '--raw', '--subdir', 'DAGS_FOLDER/first.py', '--cfg-path', '/tmp/tmp39zq4_am']
+[2023-03-04T11:54:51.839+0000] {standard_task_runner.py:83} INFO - Job 6: Subtask task-2
+[2023-03-04T11:54:51.911+0000] {task_command.py:388} INFO - Running <TaskInstance: first-dag-v2.task-2 manual__2023-03-04T11:50:47.231477+00:00 [running]> on host 00dcc0a33b20
+[2023-03-04T11:54:51.988+0000] {taskinstance.py:1509} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=ishok
+AIRFLOW_CTX_DAG_ID=first-dag-v2
+AIRFLOW_CTX_TASK_ID=task-2
+AIRFLOW_CTX_EXECUTION_DATE=2023-03-04T11:50:47.231477+00:00
+AIRFLOW_CTX_TRY_NUMBER=3
+AIRFLOW_CTX_DAG_RUN_ID=manual__2023-03-04T11:50:47.231477+00:00
+[2023-03-04T11:54:51.993+0000] {subprocess.py:63} INFO - Tmp dir root location: 
+ /tmp
+[2023-03-04T11:54:51.994+0000] {subprocess.py:75} INFO - Running command: ['/bin/bash', '-c', "echo i'm the second task"]
+[2023-03-04T11:54:52.005+0000] {subprocess.py:86} INFO - Output:
+[2023-03-04T11:54:52.017+0000] {subprocess.py:93} INFO - /bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+[2023-03-04T11:54:52.017+0000] {subprocess.py:93} INFO - /bin/bash: -c: line 2: syntax error: unexpected end of file
+[2023-03-04T11:54:52.018+0000] {subprocess.py:97} INFO - Command exited with return code 2
+[2023-03-04T11:54:52.030+0000] {taskinstance.py:1768} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/bash.py", line 197, in execute
+    f"Bash command failed. The command returned a non-zero exit code {result.exit_code}."
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 2.
+[2023-03-04T11:54:52.035+0000] {taskinstance.py:1323} INFO - Marking task as UP_FOR_RETRY. dag_id=first-dag-v2, task_id=task-2, execution_date=20230304T115047, start_date=20230304T115451, end_date=20230304T115452
+[2023-03-04T11:54:52.049+0000] {standard_task_runner.py:105} ERROR - Failed to execute job 6 for task task-2 (Bash command failed. The command returned a non-zero exit code 2.; 3212)
+[2023-03-04T11:54:52.090+0000] {local_task_job.py:208} INFO - Task exited with return code 1
+[2023-03-04T11:54:52.109+0000] {taskinstance.py:2578} INFO - 0 downstream tasks scheduled from follow-on schedule check
