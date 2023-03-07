@@ -136,7 +136,7 @@ export class UserRepostory implements UserEntityInterface {
     try {
       await this.findOne(id);
 
-      this.repo.softDelete(id);
+      this.repo.delete(id);
 
       return this.findOne(id);
     } catch (error) {
