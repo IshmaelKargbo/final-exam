@@ -1,4 +1,4 @@
-## Covid Pipeline ETL
+## Final Exam Backend
 
 Backend server for final-exam project manage the authotencation and authorization for accessing the data on the frontend
 
