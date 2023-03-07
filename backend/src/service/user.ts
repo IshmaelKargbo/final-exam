@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { newPassword } from 'src/common/generator';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { newPassword, welcomeMail } from 'src/common/generator';
 import {
   ChangePasswordDTO,
   ChangeUsernameDTO,
@@ -12,7 +13,10 @@ import { UserEntity, UserEntityInterface } from 'src/infra/enitity/user';
 
 @Injectable()
 export class UserService implements UserInterface {
-  constructor(private readonly entity: UserEntityInterface) {}
+  constructor(
+    private readonly entity: UserEntityInterface,
+    @Inject('MAIL_SERVICE') private readonly mail: ClientProxy,
+  ) {}
 
   async create(payload: CreateUserDTO): Promise<User> {
     const password = newPassword();
@@ -29,6 +33,10 @@ export class UserService implements UserInterface {
     user.password = password;
 
     const record = await this.entity.create(user);
+
+    const welcome = welcomeMail({ ...record, password: password });
+
+    this.mail.emit('welcome', welcome);
 
     return Promise.resolve(new User(record));
   }
@@ -79,6 +87,10 @@ export class UserService implements UserInterface {
     user.password = password;
 
     const record = await this.entity.resetPassword(user);
+
+    const welcome = welcomeMail({ ...record, password: password });
+
+    this.mail.emit('welcome', welcome);
 
     return Promise.resolve(new User(record));
   }
