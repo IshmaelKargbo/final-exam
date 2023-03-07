@@ -1,0 +1,24 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    environment:
+        - RABBITMQ_DEFAULT_USER=root
+        - RABBITMQ_DEFAULT_PASS=secret
+    volumes:
+        - rabbitmq:/var/lib/rabbitmq/
+        - rabbitmq:/var/log/rabbitmq
+    networks:
+        - final_exam
+
+networks:
+  final_exam:
+    driver: bridge
+
+volumes:
+    rabbitmq:
+        driver: local
