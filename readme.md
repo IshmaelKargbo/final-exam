@@ -85,7 +85,6 @@ timeline:
   its functionality, usability and performance. It’s mandatory to describe in text and graph
   what the app can do and its scalability potential.
 
-
 ## Built With
 
 - Nest.js Micreservice
@@ -93,7 +92,7 @@ timeline:
 - PostgresSQL
 - Redis
 
-## Authors
+## Author
 
 👤 **Ishmael Kargbo**
 
