@@ -25,7 +25,7 @@ To get a local copy up and running follow these simple example steps.
 - Run in production
   `npm run start:prod` or `yarn start:prod`
 
-## Authors
+## Author
 
 👤 **Ishmael Kargbo**
 
