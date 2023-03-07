@@ -8,6 +8,8 @@ Backend server for final-exam project manage the authotencation and authorizatio
 - Nest.js
 - TypeORM
 - PostgesSQL
+- Microserve
+- RabitMQ
 
 ## Getting Started
 
