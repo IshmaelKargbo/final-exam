@@ -8,7 +8,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { checkText, hashText } from 'src/common/encrypt';
 import { Repository } from 'typeorm';
-import { RoleEntity } from '../enitity/role';
 import { UserEntity, UserEntityInterface } from '../enitity/user';
 
 @Injectable()

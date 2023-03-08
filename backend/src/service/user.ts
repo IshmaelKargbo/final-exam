@@ -28,7 +28,7 @@ export class UserService implements UserInterface {
     user.firstName = payload.firstName;
     user.lastName = payload.lastName;
     user.email = payload.email;
-    user.username = payload.username;
+    user.username = payload.username.toLowerCase();
     user.role = role;
     user.password = password;
 
@@ -61,7 +61,7 @@ export class UserService implements UserInterface {
     const user = new UserEntity();
 
     user.id = payload.id;
-    user.username = payload.username;
+    user.username = payload.username.toLowerCase();
 
     const record = await this.entity.changeUsername(user);
 
@@ -96,7 +96,7 @@ export class UserService implements UserInterface {
   }
 
   async login(username: string, password: string): Promise<User> {
-    const record = await this.entity.login(username, password);
+    const record = await this.entity.login(username.toLowerCase(), password);
 
     return Promise.resolve(new User(record));
   }
