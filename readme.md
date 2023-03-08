@@ -91,6 +91,7 @@ timeline:
 - RabbitMQ
 - PostgresSQL
 - Redis
+- Docker
 
 ## Author
 
