@@ -4,12 +4,14 @@ import { ConfigModule } from '@nestjs/config';
 import { InfraModule } from 'src/infra';
 import { RoleModule } from './module/role';
 import { UserModule } from './module/user';
+import { VaccinationModule } from './module/vaccination';
 
 @Module({
   imports: [
     InfraModule,
     RoleModule,
     UserModule,
+    VaccinationModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number().default(8881),

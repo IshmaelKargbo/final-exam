@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-roboto: "Roboto", "Courier New", Courier, monospace;
+  --font-inter: "Inter", "Courier New", Courier, monospace;
+}
+
+body {
+  font-family: var(--font-roboto);
+  background-color: #ebebeb;
+}
+
+.font-inter {
+    font-family: var(--font-inter);
+}
+
+/* Antd */
+.ant-btn-primary {
+  background-color: #3c82f6 !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper table tr td.ant-table-selection-column {
+  background-color: transparent;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  font-family: var(--font-raj) !important;
+  font-size: 17px !important;
+}
+
+.ant-table-wrapper .ant-table {
+  font-family: var(--font-pop) !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  background-color: transparent !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td,
+.ant-table-wrapper .ant-table {
+  color: var(--text-color);
+}
