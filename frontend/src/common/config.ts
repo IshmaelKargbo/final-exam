@@ -4,4 +4,4 @@ const { publicRuntimeConfig } = getConfig();
 
 export const BASE_URL = publicRuntimeConfig.backendUrl;
 
-export const CSV_LINK = `${BASE_URL}/auth/csv`;
+export const CSV_LINK = `${BASE_URL}/vaccination/csv`;

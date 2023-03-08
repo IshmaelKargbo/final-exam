@@ -1,0 +1,60 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /Users/Isho/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/Isho/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/Users/Isho/Downloads/flutter/bin:/Users/Isho/Downloads/flutter/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.13.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Volumes/Disk/Work/speedykom/final-exam/pipes/covid/package.json: Unexpected token } in JSON at position 210
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "covid",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+      "start:dev": "npx nodemon",
+      "build": "rimraf ./build && tsc",
+      "start:prod": "npm run build && node build/index.js",
+    },
+    "keywords": [],
+    "author": "Ishmael Kargbo",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/needle": "^3.2.0",
+      "@types/node": "^18.14.6",
+      "nodemon": "^2.0.21",
+      "rimraf": "^4.3.0",
+      "ts-node": "^10.9.1",
+      "typescript": "^4.9.5"
+    },
+    "dependencies": {
+      "csv-parse": "^5.3.6",
+      "csv-parser": "^3.0.0",
+      "date.js": "^0.3.3",
+      "needle": "^3.2.0",
+      "pg": "^8.9.0",
+      "reflect-metadata": "^0.1.13",
+      "typeorm": "^0.3.12"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
