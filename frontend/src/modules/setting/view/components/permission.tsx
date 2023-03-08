@@ -1,23 +1,22 @@
 import { AppDrawer } from "@components/drawer";
-import { Button, Checkbox, Select, Table } from "antd";
+import { ShowMessage } from "@components/message";
+import { useEditRoleMutation } from "@modules/setting/logic/service";
+import { Button, Checkbox } from "antd";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Role } from "../logic/interface";
+import { Role } from "../../logic/interface";
 
 interface props {
-  role: Role;
+  role: Role | undefined;
   open: boolean;
   onClose: () => void;
 }
 
-export const Permission = ({ role, onClose, open }: props) => {
-  const { query } = useRouter();
-
-  const id = `${query.id}`;
-
+export const ViewPermissions = ({ role, onClose, open }: props) => {
   const [loading, setLoading] = useState(false);
+
+  const [editRole] = useEditRoleMutation();
 
   const validationSchema = Yup.object({
     permissions: Yup.array().of(
@@ -34,6 +33,14 @@ export const Permission = ({ role, onClose, open }: props) => {
   const formik = useFormik({
     initialValues: {
       permissions: [
+        {
+          all: false,
+          name: "Dashboard",
+          create: false,
+          update: false,
+          delete: false,
+          read: false,
+        },
         {
           all: false,
           name: "User",
@@ -53,20 +60,31 @@ export const Permission = ({ role, onClose, open }: props) => {
       ],
     },
     validationSchema,
-    onSubmit(values) {
+    onSubmit(value) {
       setLoading(true);
 
-      // api.patch(`/role/permissions/${record.id}`, values)
-      //   .then(res => res.data)
-      //   .then(() => {
-      //     ShowMessage('success', 'Permission', "Admin permission created successfully");
-      //     Router.push("/role")
-      //   })
-      //   .catch(handleError)
-      //   .catch(err => {
-      //     ShowMessage('success', 'Permission', err.data);
-      //   })
-      //   .finally(() => setLoading(false));
+      const permissions = value.permissions.map((e) => ({
+        name: e.name,
+        create: e.create,
+        update: e.update,
+        delete: e.delete,
+        read: e.read,
+      }));
+
+      editRole({ ...role, permissions })
+        .then((res: any) => {
+          if (res.error) {
+            const { data } = res.error;
+            const { message } = data;
+            ShowMessage("error", message);
+            return;
+          }
+
+          ShowMessage("success", "User edited successfully !");
+        })
+        .finally(() => setLoading(false));
+
+      onClose();
     },
   });
 
@@ -140,7 +158,7 @@ export const Permission = ({ role, onClose, open }: props) => {
   };
 
   const update = () => {
-    role.permissions.forEach((permission: any) => {
+    role?.permissions.forEach((permission: any) => {
       const index = formik.initialValues.permissions.findIndex(
         (e) => e.name === permission.name
       );
@@ -162,64 +180,65 @@ export const Permission = ({ role, onClose, open }: props) => {
   };
 
   useEffect(() => {
-    update();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (role) {
+      update();
+    }
   }, [role]);
 
   return (
-    <AppDrawer onClose={onClose} open={open}>
+    <AppDrawer
+      width={"50%"}
+      onClose={onClose}
+      open={open}
+      title="Role Permissions"
+    >
       <div>
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-xl font-raj">Role Permission</p>
-        </div>
-        <div className="bg-white p-5 rounded-md">
-          <form>
-            <table className="w-full border border-collapse rounded-md">
-              <thead>
-                <tr>
-                  <th className="text-sm font-normal border p-3">#</th>
-                  <th className="text-sm font-normal border p-3" align="left">
-                    Module
-                  </th>
-                  <th className="text-sm font-normal border p-3" align="left">
-                    Add
-                  </th>
-                  <th className="text-sm font-normal border p-3" align="left">
-                    Edit
-                  </th>
-                  <th className="text-sm font-normal border p-3" align="left">
-                    Delete
-                  </th>
-                  <th className="text-sm font-normal border p-3" align="left">
-                    View
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {formik.values.permissions.map((permission, key) => (
-                  <Permission permission={permission} key={key} index={key} />
-                ))}
-                <tr>
-                  <td colSpan={6} className="p-3 py-4">
-                    <div className="flex space-x-3">
-                      <Button size="large" danger>
-                        Cancel
-                      </Button>
-                      <Button
-                        htmlType="submit"
-                        type="primary"
-                        size="large"
-                        className="bg-blue-400"
-                      >
-                        Save
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </form>
-        </div>
+        <form onSubmit={formik.handleSubmit}>
+          <table className="w-full border border-collapse rounded-md">
+            <thead>
+              <tr>
+                <th className="text-sm font-normal border p-3">#</th>
+                <th className="text-sm font-normal border p-3" align="left">
+                  Module
+                </th>
+                <th className="text-sm font-normal border p-3" align="left">
+                  Add
+                </th>
+                <th className="text-sm font-normal border p-3" align="left">
+                  Edit
+                </th>
+                <th className="text-sm font-normal border p-3" align="left">
+                  Delete
+                </th>
+                <th className="text-sm font-normal border p-3" align="left">
+                  View
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {formik.values.permissions.map((permission, key) => (
+                <Permission permission={permission} key={key} index={key} />
+              ))}
+              <tr>
+                <td colSpan={6} className="p-3 py-4">
+                  <div className="flex space-x-3">
+                    <Button size="large" danger onClick={onClose}>
+                      Cancel
+                    </Button>
+                    <Button
+                      htmlType="submit"
+                      type="primary"
+                      size="large"
+                      loading={loading}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
       </div>
     </AppDrawer>
   );

@@ -3,10 +3,10 @@ import { AppTable } from "@components/table";
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { useRoles } from "../logic/hook/role";
-import { User } from "../logic/interface";
-import { useDeleteUserMutation } from "../logic/service";
-import { AddUser } from "./components/add-user";
-import { ViewUser } from "./components/view-user";
+import { Role } from "../logic/interface";
+import { useDeleteRoleMutation } from "../logic/service";
+import { AddRole } from "./components/add-role";
+import { ViewPermissions } from "./components/permission";
 
 const { confirm } = Modal;
 
@@ -15,9 +15,9 @@ export const SettingRoleModule = () => {
   const [delLoading, setLoading] = useState(false);
   const [viewState, setViewState] = useState(false);
   const [title, setTitle] = useState("New User");
-  const [user, setUser] = useState<User | undefined>();
+  const [role, setRole] = useState<Role | undefined>();
 
-  const [delUser] = useDeleteUserMutation();
+  const [delUser] = useDeleteRoleMutation();
 
   const onOpen = () => {
     setState(true);
@@ -26,19 +26,19 @@ export const SettingRoleModule = () => {
   const onClose = () => {
     setState(false);
     setViewState(false);
-    setUser(undefined);
-    setTitle("New User");
+    setRole(undefined);
+    setTitle("New Role");
   };
 
-  const view = (row: User) => {
-    setUser(row);
+  const view = (row: Role) => {
+    setRole(row);
     setViewState(true);
   };
 
-  const edit = (row: User) => {
-    setUser(row);
+  const edit = (row: Role) => {
+    setRole(row);
     setState(true);
-    setTitle("Edit User");
+    setTitle("Edit Role");
   };
 
   const showDeleteConfirm = (id: string, username: string) => {
@@ -53,7 +53,7 @@ export const SettingRoleModule = () => {
         delUser(id)
           .then((res: any) => {
             if (res.error) {
-              ShowMessage("error", res.error.message);
+              ShowMessage("error", "Can't delete this role user depend on it");
               return;
             }
 
@@ -62,17 +62,17 @@ export const SettingRoleModule = () => {
           .finally(() => setLoading(false));
       },
       onCancel() {
-        setUser(undefined);
+        setRole(undefined);
       },
     });
   };
 
-  const del = (row: User) => {
-    setUser(row);
-    showDeleteConfirm(row.id, row.username);
+  const del = (row: Role) => {
+    setRole(row);
+    showDeleteConfirm(row.id, row.name);
   };
 
-  const { columns, rows, loading } = useRoles();
+  const { columns, rows, loading } = useRoles(view, edit, del);
 
   return (
     <div className="mx-auto container px-10 py-16">
@@ -94,8 +94,8 @@ export const SettingRoleModule = () => {
             loading={loading || delLoading ? true : false}
           />
         </div>
-        <AddUser state={state} onClose={onClose} user={user} title={title} />
-        <ViewUser state={viewState} onClose={onClose} user={user} />
+        <AddRole state={state} onClose={onClose} role={role} title={title} />
+        <ViewPermissions open={viewState} onClose={onClose} role={role} />
       </div>
     </div>
   );

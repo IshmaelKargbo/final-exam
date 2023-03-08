@@ -53,7 +53,9 @@ export const SettingModule = () => {
         delUser(id)
           .then((res: any) => {
             if (res.error) {
-              ShowMessage("error", res.error.message);
+              const { data } = res.error;
+              const { message } = data;
+              ShowMessage("error", message);
               return;
             }
 

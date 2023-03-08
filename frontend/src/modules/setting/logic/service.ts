@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../../../common/rtk";
-import { User } from "./interface";
+import { Role, User } from "./interface";
 
 export const userApi = createApi({
   reducerPath: "UserApi",
@@ -65,28 +65,37 @@ export const roleApi = createApi({
   baseQuery: baseQuery,
   tagTypes: ["roles", "role"],
   endpoints: (builder) => ({
-    roleFind: builder.query<User[], void>({
+    roleFind: builder.query<Role[], void>({
       query: () => ({
         url: "/role",
       }),
       providesTags: ["roles"],
     }),
-    roleFindOne: builder.query<User, string>({
-      query: (id) => ({
-        url: `/role/${id}`,
-      }),
-      providesTags: ["role"],
-    }),
-    createRole: builder.mutation<User, Partial<any>>({
+    createRole: builder.mutation<Role, Partial<any>>({
       query: (body) => ({
-        url: "user",
+        url: "role",
         method: "POST",
         body,
+      }),
+      invalidatesTags: ["roles"],
+    }),
+    editRole: builder.mutation<Role, Partial<any>>({
+      query: (body) => ({
+        url: "role",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["roles"],
+    }),
+    deleteRole: builder.mutation<User, string>({
+      query: (id) => ({
+        url: `/role/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["roles"],
     }),
   }),
 });
 
-export const { useRoleFindQuery, useRoleFindOneQuery, useCreateRoleMutation } =
+export const { useRoleFindQuery, useEditRoleMutation, useCreateRoleMutation, useDeleteRoleMutation } =
   roleApi;
