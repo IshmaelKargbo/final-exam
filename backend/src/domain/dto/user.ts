@@ -42,6 +42,14 @@ export class ChangePasswordDTO {
   password: string;
 }
 
+export class LoginDTO {
+  @IsString()
+  username: string;
+
+  @IsString()
+  password: string;
+}
+
 export class ChangeUsernameDTO {
   @IsString()
   id: string;

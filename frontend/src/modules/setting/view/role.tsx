@@ -78,7 +78,7 @@ export const SettingRoleModule = () => {
     <div className="mx-auto container px-10 py-16">
       <div className="bg-white p-5">
         <div className="border-b flex justify-between px-3 py-5 items-center">
-          <p className="text-xl font-bold">All Role</p>
+          <p className="text-xl font-semibold">All Role</p>
           <button
             onClick={onOpen}
             className="border rounded-md px-6 py-2.5 bg-blue-500 text-white"

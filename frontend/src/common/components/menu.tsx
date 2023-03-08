@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { RiDashboardLine } from "react-icons/ri";
 import { BsDatabaseCheck } from "react-icons/bs";
-import { FaSignOutAlt, FaUserLock, FaUsers } from "react-icons/fa";
-import { MdOutlineSettings } from "react-icons/md";
+import { FaUserLock, FaUsers } from "react-icons/fa";
 import { NavLink } from "./link";
 import { ReactNode } from "react";
 

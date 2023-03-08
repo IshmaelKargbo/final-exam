@@ -1,24 +1,99 @@
 version: "3.2"
 services:
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-        - 5672:5672
-        - 15672:15672
-    environment:
-        - RABBITMQ_DEFAULT_USER=root
-        - RABBITMQ_DEFAULT_PASS=secret
-    volumes:
-        - rabbitmq:/var/lib/rabbitmq/
-        - rabbitmq:/var/log/rabbitmq
-    networks:
-        - final_exam
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=root
+            - RABBITMQ_DEFAULT_PASS=secret
+        volumes:
+            - rabbitmq:/var/lib/rabbitmq/
+            - rabbitmq:/var/log/rabbitmq
+        networks:
+            - final_exam
 
+    db:
+        image: postgres:14.1-alpine
+        restart: always
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=bizstack
+        ports:
+            - '5432:5432'
+        volumes:
+            - db:/var/lib/postgresql/data
+
+    redis:
+        image: "redis:alpine"
+        hostname: redis
+        ports:
+            - "6379:6379"
+
+    backend:
+        container_name: backend
+        image: backend
+        build: ./backend/
+        command: yarn start
+        ports:
+            - 8885:3000
+        environment:
+            NODE_ENV: production
+            DB_HOST: db
+            DB_PORT: 5432
+            DB_USERNAME: root
+            DB_PASSWORD: secret
+            DB_DATABASE: bizstack
+            DB_SSL: false
+            SECRET: 387394389350349060
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            RABBITMQ_USER: root
+            RABBITMQ_PASSWORD: secret
+            RABBITMQ_HOST: rabbitmq:5672
+            RABBITMQ_QUEUE_NAME: main_queue
+        restart: unless-stopped
+        links:
+            - db
+            - redis
+            - rabbitmq
+
+    mail:
+        container_name: mail
+        image: mail
+        build: ./mail/
+        command: yarn start:prod
+        environment:
+            RABBITMQ_USER: root
+            RABBITMQ_PASSWORD: secret
+            RABBITMQ_HOST: rabbitmq:5672
+            RABBITMQ_QUEUE_NAME: main_queue
+        restart: unless-stopped
+        links:
+            - rabbitmq
+
+    frontend:
+        container_name: frontend
+        image: frontend
+        build: ./frontend/
+        command: yarn start
+        ports:
+            - 8886:3000
+        environment:
+            NODE_ENV: production
+            BASE_URL: backend
+        restart: unless-stopped
+        links:
+            - backend
 networks:
   final_exam:
     driver: bridge
 
 volumes:
+    db:
+        driver: local
     rabbitmq:
         driver: local

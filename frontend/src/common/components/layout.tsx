@@ -11,7 +11,7 @@ export const Layout = ({ children }: props) => {
     <div className="flex flex-col h-screen">
       <Nav />
       <main className="flex flex-1 overflow-y-auto">
-        <div className="w-20 h-full border-r">
+        <div className="w-16 h-full border-r">
           <Menu />
         </div>
         <div className="flex-1 overflow-y-auto">{children}</div>

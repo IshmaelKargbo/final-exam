@@ -7,6 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  Request,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -16,8 +18,10 @@ import {
   UpdateUserDTO,
 } from 'src/domain/dto/user';
 import { UserInterface } from 'src/domain/model/user';
+import { AuthenticatedGuard } from '../auth/guard/auth';
 
 @UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(AuthenticatedGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly domain: UserInterface) {}
@@ -55,6 +59,11 @@ export class UserController {
   @Get()
   async find() {
     return this.domain.find();
+  }
+
+  @Get('me')
+  async me(@Request() req) {
+    return req.user;
   }
 
   @Get(':id')

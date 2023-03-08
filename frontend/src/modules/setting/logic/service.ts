@@ -19,6 +19,11 @@ export const userApi = createApi({
       }),
       providesTags: ["user"],
     }),
+    me: builder.query<User, void>({
+      query: () => ({
+        url: "/user/me",
+      })
+    }),
     createUser: builder.mutation<User, Partial<any>>({
       query: (body) => ({
         url: "user",
@@ -57,7 +62,8 @@ export const {
   useCreateUserMutation,
   useEditUserMutation,
   useResetPasswordMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
+  useMeQuery
 } = userApi;
 
 export const roleApi = createApi({

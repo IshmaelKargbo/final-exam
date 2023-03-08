@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {
-  ClientProxyFactory,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserInterface } from 'src/domain/model/user';
 import { RoleEntity } from 'src/infra/enitity/role';
 import { UserEntity, UserEntityInterface } from 'src/infra/enitity/user';
 import { UserRepostory } from 'src/infra/repostory/user';
 import { UserService } from 'src/service/user';
+import { SessionSerializer } from '../auth/session.serializer';
+import { LocalStrategy } from '../auth/strategy/local';
+import { AuthController } from '../routes/auth';
 import { UserController } from '../routes/user';
 
 @Module({
@@ -45,7 +44,9 @@ import { UserController } from '../routes/user';
       },
       inject: [ConfigService],
     },
+    LocalStrategy,
+    SessionSerializer,
   ],
-  controllers: [UserController],
+  controllers: [UserController, AuthController],
 })
 export class UserModule {}

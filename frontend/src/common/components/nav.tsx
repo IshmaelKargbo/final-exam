@@ -1,9 +1,33 @@
 import { Button, Dropdown, MenuProps } from "antd";
 import Link from "next/link";
 import { BsDatabaseDown, BsFiletypeCsv } from "react-icons/bs";
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { CSV_LINK } from "../config";
+import { useMeQuery } from "@modules/setting/logic/service";
+import { useLogoutMutation } from "@modules/login/logic/service";
+import { ShowMessage } from "./message";
+import Router from "next/router";
 
 export const Nav = () => {
+  const [logout] = useLogoutMutation();
+  const { data: user } = useMeQuery();
+
+  const downloadCSV = () => {
+    window.open(CSV_LINK, "_blank");
+  };
+
+  const logoutUser = () => {
+    logout().then((res: any) => {
+      if (res.error) {
+        const { data } = res.error;
+        const { message } = data;
+        ShowMessage("error", message);
+        return;
+      }
+      Router.push("/login");
+    });
+  };
+
   const items: MenuProps["items"] = [
     {
       label: "Profile",
@@ -14,22 +38,14 @@ export const Nav = () => {
       label: "Logout",
       key: "2",
       icon: <LogoutOutlined />,
+      onClick: logoutUser,
     },
   ];
 
-  const handleMenuClick: MenuProps["onClick"] = (e) => {
-    console.log("click", e);
-  };
-
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
-  };
-
   return (
-    <nav className="bg-white border-b justify-between items-center flex p-5">
+    <nav className="bg-white border-b justify-between items-center flex px-5 py-3">
       <div>
-        <Link href="/">
+        <Link href="/" className="font-semibold">
           Final Exam
         </Link>
       </div>
@@ -38,18 +54,24 @@ export const Nav = () => {
           <Button>
             <BsDatabaseDown className="text-base" />
           </Button>
-          <Button>
+          <Button onClick={downloadCSV}>
             <BsFiletypeCsv className="text-base" />
           </Button>
         </div>
         <div>
-          <Dropdown.Button
-            menu={menuProps}
-            placement="bottom"
-            icon={<UserOutlined />}
+          <Dropdown
+            menu={{
+              items,
+            }}
           >
-            Dropdown
-          </Dropdown.Button>
+            <div className="flex border rounded-md px-2 py-1.5 space-x-3">
+              <div className="flex space-x-2 items-center">
+                <UserOutlined />
+                <p className="text-sm">{`${user?.firstName} ${user?.lastName}`}</p>
+              </div>
+              <DownOutlined className="text-xs" />
+            </div>
+          </Dropdown>
         </div>
       </div>
     </nav>

@@ -7,11 +7,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateRoleDTO, UpdateRoleDTO } from 'src/domain/dto/role';
 import { Role, RoleInterface } from 'src/domain/model/role';
+import { AuthenticatedGuard } from '../auth/guard/auth';
 
+@UseGuards(AuthenticatedGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('role')
 export class RoleController {
