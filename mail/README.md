@@ -1,4 +1,4 @@
-## Final Exam Mailservice
+## Speedykom Final Exam Mail Service
 
 Mail service send all the mails in the final exam project
 
