@@ -19,7 +19,6 @@ export class RoleService implements RoleInterface {
     entity.name = payload.name;
     entity.id = payload.id;
     entity.permissions = payload.permissions;
-
     const record = await this.entity.update(entity);
     return Promise.resolve(new Role(record));
   }

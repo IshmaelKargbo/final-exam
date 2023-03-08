@@ -1,4 +1,4 @@
-## Covid Pipeline ETL
+## Speedykom Final Exam Covid Pipeline ETL
 
 Extract covid vaccine data from three different csv file transform and load them in to postgres
 
