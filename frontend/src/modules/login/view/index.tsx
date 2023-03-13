@@ -35,10 +35,9 @@ export const LoginModule = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="bg-white w-1/4 p-10 py-16">
+      <div className="w-1/4 p-10 py-16">
         <div className="mb-10">
-          <p className="text-2xl">Final Exam</p>
-          <p className="text-gray-500">Login</p>
+          <p className="text-4xl text-center font-bold">Final Exam</p>
         </div>
         <Form
           name="addUser"

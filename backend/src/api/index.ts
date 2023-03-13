@@ -4,14 +4,12 @@ import { ConfigModule } from '@nestjs/config';
 import { InfraModule } from 'src/infra';
 import { RoleModule } from './module/role';
 import { UserModule } from './module/user';
-import { VaccinationModule } from './module/vaccination';
 
 @Module({
   imports: [
     InfraModule,
     RoleModule,
     UserModule,
-    VaccinationModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number().default(8881),
@@ -23,10 +21,6 @@ import { VaccinationModule } from './module/vaccination';
         DB_DATABASE: Joi.string().required(),
         DB_SSL: Joi.boolean().required(),
         JWT_SECRET: Joi.string().required(),
-        RABBITMQ_USER: Joi.string().required(),
-        RABBITMQ_PASSWORD: Joi.string().required(),
-        RABBITMQ_HOST: Joi.string().required(),
-        RABBITMQ_QUEUE_NAME: Joi.string().required(),
       }),
     }),
   ],

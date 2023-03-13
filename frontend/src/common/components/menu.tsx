@@ -33,11 +33,6 @@ export const Menu = () => {
           </MenuLink>
         </li>
         <li>
-          <MenuLink href="/vaccination">
-            <BsDatabaseCheck className="text-2xl" />
-          </MenuLink>
-        </li>
-        <li>
           <MenuLink href="/role">
             <FaUserLock className="text-2xl" />
           </MenuLink>

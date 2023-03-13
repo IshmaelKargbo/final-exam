@@ -25,7 +25,8 @@ const Home = {
 export const handleError = (err: any) => {
   const { response, code } = err;
 
-  if (code === "ERR_NETWORK") throw { status: 307, data: "Network issue" };
+  if (code === "ERR_NETWORK" && code === "ECONNREFUSED")
+    throw { status: 307, data: "Network issue" };
 
   if (!response) throw err;
 
@@ -56,7 +57,7 @@ export const ApiServer = {
 
     if (response.status === 307) return NoNetwork;
 
-    if (response.status === 401) return UnAuthorize;
+    if (response.status === 403) return UnAuthorize;
 
     return {
       props: {},
